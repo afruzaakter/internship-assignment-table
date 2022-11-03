@@ -1,13 +1,39 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import About from './About';
-import Navbar from './Navbar';
+import '../Components/style.css';
 
 const Home = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = (data)=>{ 
+        const name = data.name;
+        const email = data.email;
+        const phone = data.phone;
+        const hobbies = data.hobbies;
+       const field = {name, email, phone, hobbies};
+    //    console.log(field)
+
+    const url = 'http://localhost:5000/work'
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+            field
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    })
+
+    .then((res) => res.json())
+    .then((data)=>{
+        console.log(data)
+        // data.target.reset()
+    });
+
+
+    }
     return (
-        <div className='bg-gray-400 w-96 mx-auto h-auto p-3 rounded-lg mt-12'>
+        <div className='background'>
+            <div className='bg-blue-400 w-96 mx-auto h-auto p-3 rounded-lg mt-12 '>
             <form className=' p-2 ' onSubmit={handleSubmit(onSubmit)}>
                 {/* ------------------------------------Name Field ------------------------------------ */}
                 <div>
@@ -62,6 +88,8 @@ const Home = () => {
                 </div>
                 <input className='btn w-full  mt-10' type="submit" value='Save' />
             </form>
+        </div>
+      
         </div>
     );
 };

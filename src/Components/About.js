@@ -2,8 +2,8 @@ import React from 'react';
 
 const About = () => {
     return (
-        <div>
-            <h1>This is about page</h1>
+        <div className='border border-4 border-red-600'>
+            
         </div>
     );
 };

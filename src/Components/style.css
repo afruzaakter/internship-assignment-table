@@ -1,0 +1,9 @@
+.background{
+    background-image: url(../Images//header-background.webp);
+    object-fit: cover;
+    height: 500px;
+    width: 100%;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+}
