@@ -1,51 +1,38 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import '../Components/style.css';
-import Table from './Table';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
-const Form = () => {
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+const Update = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    const {id} = useParams();
     const navigate = useNavigate()
-    const onSubmit = (data)=>{ 
-    const addData = {
-        name: data.name,
-        phone: data.phone,
-        email: data.email,
-        hobbies: data.hobbies,
-    }
+    const onSubmit = (data) =>{
+        const url = ` http://localhost:5000/work/${id}`
+        console.log(url)
+        fetch(url,{
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data =>{
+            // if(data.Update){
+            //     toast.success('Update Successfully!!!')
 
-        
-    const url = 'http://localhost:5000/work'
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(addData),
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-        },
-    })
+            // }
+            toast.success('Update Successfully!!!')
+            navigate('/showTableData')
+        })
 
-    .then((res) => res.json())
-    .then((data)=>{
-       
-        if(data.insertedId){
-            toast.success("Successfully Data Add");
-            reset()
-            navigate('/table')
-           
-        }
-        else{
-            toast.error("Failed to  add product");
-        }  
-    });
-   
     }
     return (
-       
-            <div className='background'>
-            <div className='bg-blue-400 w-96 mx-auto h-auto p-3 rounded-lg mt-12 '>
-            <form className=' p-2 ' onSubmit={handleSubmit(onSubmit)}>
+        <div className='mt-8'> 
+           <h1 className='text-center text-3xl font-bold text-gray-600'>Update Data</h1>
+            <div className='mx-auto w-96 h-auto bg-gray-400 mt-8 p-3 rounded-lg'>
+             <form className=' p-2 ' onSubmit={handleSubmit(onSubmit)}>
                 {/* ------------------------------------Name Field ------------------------------------ */}
                 <div>
                     <input type='text' placeholder='Name' className='input input-bordered w-full mt-4' {...register("name", {
@@ -105,16 +92,16 @@ const Form = () => {
                         {errors.hobbies?.type === 'pattern' && <span className="label-text-alt text-red-700">{errors.hobbies.message}</span>}
                     </label>
                 </div>
-                <input className='btn w-full  mt-10' type="submit" value='Save' />
+               <div className='flex'>
+             <Link to ='/showTableData'>   </Link> 
+              <input className='btn   mt-7' type="submit" value='Update' /> 
+            
+               <Link to='/showTableData'><button className='btn ml-6 mt-7'>Back</button></Link>
+               </div>
             </form>
         </div>
-        <ToastContainer />
-        <Table/>
         </div>
-
-     
-       
     );
 };
 
-export default Form;
+export default Update;

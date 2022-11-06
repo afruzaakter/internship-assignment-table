@@ -1,22 +1,23 @@
 import React, { useEffect,useState } from 'react';
 import ShowTableData from './ShowTableData';
 
+
 const Table = () => {
     const [works, setWorks] = useState([]);
-    const [Refresh, setRefresh] = React.useState(false);
+    const [refresh, setRefresh] = React.useState(false);
     useEffect(() =>{
         fetch('http://localhost:5000/work')
         .then(res => res.json())
         .then(data => setWorks(data));
-        setRefresh(!Refresh)
+        setRefresh(!refresh)
        
     }, [])
 
-    // console.log('Work', works)
+   
  
     return (
-        <div class="overflow-x-auto mt-20 mb-20">
-        <table class="table w-full">
+        <div className="overflow-x-auto mt-20 mb-20">
+        <table className="table w-full">
             <thead>
                 <tr>
                 
@@ -36,6 +37,7 @@ const Table = () => {
               key= {work._id}
               work = {work}
               index = {index}
+              Refresh = {refresh}
               />)  
             }
             </tbody>
